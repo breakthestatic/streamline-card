@@ -191,6 +191,11 @@ const thrower = (text) => {
     set hass(hass) {
       this._hass = hass;
 
+      // The first hass must reach the inner card before it renders; it can't wait for the batched update
+      if (this._card && this._card.hass === undefined) {
+        this._card.hass = hass;
+      }
+
       const hasConfigChanged = this.parseConfig();
       if (hasConfigChanged) {
         this.queueUpdate("config");
@@ -325,6 +330,11 @@ const thrower = (text) => {
       }
 
       this.updateCardLayout();
+
+      // Pass hass before it is attached and renders for the first time
+      if (this._hass) {
+        this._card.hass = this._hass;
+      }
 
       if (this._card.getCardSize === undefined) {
         this.getCardSize = undefined;
