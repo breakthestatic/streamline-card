@@ -6259,6 +6259,7 @@ var thrower = (text) => {
 		_config = void 0;
 		_originalConfig = void 0;
 		_hass = void 0;
+		_layout = void 0;
 		_card = void 0;
 		_shadow;
 		_inlineTemplates = {};
@@ -6299,6 +6300,9 @@ var thrower = (text) => {
 		}
 		updateCardEditMode() {
 			if (this._isConnected && this._card) this._card.editMode = this._editMode;
+		}
+		updateCardLayout() {
+			if (this._card && this._layout !== void 0) this._card.layout = this._layout;
 		}
 		updateCardConfig() {
 			if (this._isConnected && this._card && this._config) {
@@ -6341,11 +6345,19 @@ var thrower = (text) => {
 				this.queueUpdate("editMode");
 			}
 		}
+		get layout() {
+			return this._layout;
+		}
+		set layout(layout) {
+			this._layout = layout;
+			this.updateCardLayout();
+		}
 		get hass() {
 			return this._hass;
 		}
 		set hass(hass) {
 			this._hass = hass;
+			if (this._card && this._card.hass === void 0) this._card.hass = hass;
 			if (this.parseConfig()) this.queueUpdate("config");
 			this.queueUpdate("hass");
 		}
@@ -6355,7 +6367,7 @@ var thrower = (text) => {
 			else if (getIsTemplateLoaded() !== true) loadRemoteTemplates().then(() => {
 				this.initTemplates();
 				this.initCard();
-				fireEvent(this.parentNode, "card-updated", { value: true });
+				if (this.parentNode) fireEvent(this.parentNode, "card-updated", { value: true });
 			});
 		}
 		parseConfig() {
@@ -6422,6 +6434,8 @@ var thrower = (text) => {
 					this.style.setProperty(prop, this._config.style[prop]);
 				});
 			} else if (this._templateConfig.badge) this._card = HELPERS.createBadgeElement(this._config);
+			this.updateCardLayout();
+			if (this._hass) this._card.hass = this._hass;
 			if (this._card.getCardSize === void 0) this.getCardSize = void 0;
 			if (this._card.getGridOptions === void 0) this.getGridOptions = void 0;
 			if (this._card.getLayoutOptions === void 0) this.getLayoutOptions = void 0;
