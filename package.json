@@ -8,10 +8,10 @@
     "dev": "vite build --watch --mode development",
     "build": "vite build",
     "preview": "vite preview",
-    "audit:format": "prettier -c src/",
-    "audit:lint": "eslint src/",
-    "fix:format": "prettier --write src/",
-    "fix:lint": "eslint --fix src/",
+    "audit:format": "oxfmt --check src/",
+    "audit:lint": "oxlint src/",
+    "fix:format": "oxfmt src/",
+    "fix:lint": "oxlint --fix src/",
     "test:unit": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:perf": "playwright test"
@@ -19,21 +19,15 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@playwright/test": "^1.60.0",
-    "@vitest/coverage-v8": "^4.1.6",
-    "eslint": "~10.3.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-n": "^18.0.1",
-    "eslint-plugin-promise": "^7.3.0",
-    "globals": "^17.6.0",
-    "happy-dom": "^20.9.0",
-    "prettier": "^3.8.3",
-    "vite": "^8.0.12",
-    "vitest": "^4.1.6"
+    "@playwright/test": "^1.65.0",
+    "@vitest/coverage-v8": "^5.1.0",
+    "happy-dom": "^21.0.4",
+    "oxfmt": "^0.75.0",
+    "oxlint": "^1.91.0",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0"
   },
   "dependencies": {
-    "yaml": "^2.9.0"
+    "yaml": "^2.9.1"
   }
 }
