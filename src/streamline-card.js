@@ -195,8 +195,10 @@ const thrower = (text) => {
         loadRemoteTemplates().then(() => {
           this.initTemplates();
           this.initCard();
-          // Fired on the card itself: it bubbles to hui-card when attached, and is a no-op when HA hasn't attached it (e.g. hidden by visibility)
-          fireEvent(this, "card-updated", { value: true });
+          // HA may not have attached the card yet (e.g. hidden by visibility), in which case there is no parent to notify
+          if (this.parentNode) {
+            fireEvent(this.parentNode, "card-updated", { value: true });
+          }
         });
       }
     }
