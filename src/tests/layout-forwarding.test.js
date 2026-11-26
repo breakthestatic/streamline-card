@@ -43,8 +43,7 @@ const createStreamlineCard = () => {
 
 describe("Layout forwarding to the inner card", () => {
   beforeAll(async () => {
-    window.loadCardHelpers = () =>
-      Promise.resolve({ createCardElement: createInnerCard });
+    window.loadCardHelpers = () => Promise.resolve({ createCardElement: createInnerCard });
     await import("../streamline-card");
     await customElements.whenDefined("streamline-card");
   });
